@@ -1,196 +1,197 @@
 # ELEGOO Smart Robot Car Kit V4.0 New
 
-ELEGOO Smart Robot Car Kit V4.0 New 是一套基于 Arduino UNO 兼容主控的智能小车程序。当前代码版本为 `2.1.2`，主程序入口为 `SmartRobotCarV4.0.ino`。
+[Chinese version](./README.zh-CN.md)
 
-本仓库包含小车的运动控制、循迹、避障、跟随、红外遥控、串口 JSON 控制、RGB 灯光、舵机、超声波测距、电压检测和按键处理等核心逻辑。
+ELEGOO Smart Robot Car Kit V4.0 New is an Arduino-based robot car project for the ELEGOO Smart Robot Car Kit V4.0 platform. The current firmware version is `2.1.2`, and the main Arduino sketch is `SmartRobotCarV4.0.ino`.
 
-## 功能特性
+This repository contains the core firmware for motion control, line tracking, obstacle avoidance, object following, IR remote control, serial JSON control, RGB lighting, servo control, ultrasonic ranging, voltage detection, and key input handling.
 
-- 基础运动控制：前进、后退、左转、右转、停止
-- 自动模式：循迹、避障、跟随
-- 遥控模式：红外遥控和串口摇杆控制
-- 传感器读取：三路循迹传感器、超声波距离、电压检测、MPU6050
-- 外设控制：RGB LED、双轴舵机、电机驱动
-- 串口通信：通过 JSON 命令控制小车并返回执行结果
-- 看门狗：启用 AVR watchdog，提高运行稳定性
+## Features
 
-## 文件结构
+- Basic movement control: forward, backward, left, right, and stop
+- Autonomous modes: line tracking, obstacle avoidance, and object following
+- Remote control modes: IR remote and serial rocker control
+- Sensor support: line tracking sensors, ultrasonic distance sensor, voltage detection, and MPU6050
+- Peripheral control: RGB LED, dual-axis servo, and motor driver
+- Serial communication: JSON commands over the serial port
+- Watchdog support: AVR watchdog is enabled for better runtime stability
+
+## Project Structure
 
 ```text
 .
-├── SmartRobotCarV4.0.ino        # Arduino 主程序入口
-├── ApplicationFunctionSet.*     # 应用层状态机、串口命令、模式切换
-├── MotionControl.*              # 运动控制、循迹、避障、跟随算法
-├── DeviceDriverSet.*            # 电机、舵机、红外、超声波、MPU6050 等驱动
-├── RgbControl.*                 # RGB LED 控制
-├── Utils.*                      # 工具函数
-├── ArduinoJson-v6.11.1.h        # 项目内置 ArduinoJson 头文件
-├── addLibrary/                  # 可选的附加库目录
-└── README.txt                   # 原始说明文件
+|-- SmartRobotCarV4.0.ino        # Arduino main sketch
+|-- ApplicationFunctionSet.*     # Application state machine, serial commands, mode switching
+|-- MotionControl.*              # Motion control, tracking, obstacle avoidance, follow logic
+|-- DeviceDriverSet.*            # Motor, servo, IR, ultrasonic, MPU6050, and low-level drivers
+|-- RgbControl.*                 # RGB LED control
+|-- Utils.*                      # Utility functions
+|-- ArduinoJson-v6.11.1.h        # Bundled ArduinoJson header
+|-- addLibrary/                  # Optional additional libraries
+`-- README.txt                   # Original documentation file
 ```
 
-## 硬件与引脚
+## Hardware Pin Map
 
-默认引脚已经在代码中定义，通常不需要手动修改。
+The default pin definitions are already configured in the source code and usually do not need to be changed.
 
-| 模块 | 引脚 |
+| Module | Pin |
 | --- | --- |
 | RGB LED | D4 |
-| 按键 | D2 |
-| 红外接收 | D9 |
-| 左循迹传感器 | A2 |
-| 中循迹传感器 | A1 |
-| 右循迹传感器 | A0 |
-| 电压检测 | A3 |
-| 右电机 PWM | D5 |
-| 左电机 PWM | D6 |
-| 右电机方向 | D7 |
-| 左电机方向 | D8 |
-| 电机 STBY | D3 |
-| 超声波 TRIG | D13 |
-| 超声波 ECHO | D12 |
-| Z 轴舵机 | D10 |
-| Y 轴舵机 | D11 |
+| Button | D2 |
+| IR receiver | D9 |
+| Left line tracking sensor | A2 |
+| Middle line tracking sensor | A1 |
+| Right line tracking sensor | A0 |
+| Voltage detection | A3 |
+| Right motor PWM | D5 |
+| Left motor PWM | D6 |
+| Right motor direction | D7 |
+| Left motor direction | D8 |
+| Motor STBY | D3 |
+| Ultrasonic TRIG | D13 |
+| Ultrasonic ECHO | D12 |
+| Z-axis servo | D10 |
+| Y-axis servo | D11 |
 | MPU6050 | I2C SDA/SCL |
 
-## 开发环境
+## Development Environment
 
-推荐使用：
+Recommended tools:
 
 - Arduino IDE 2.x
-- 或 Visual Studio Code + Arduino 扩展
-- 开发板选择：`Arduino Uno`
-- 串口波特率：`9600`
+- Or Visual Studio Code with the Arduino extension
+- Board: `Arduino Uno`
+- Serial baud rate: `9600`
 
-需要安装的 Arduino 库：
+Required Arduino libraries:
 
 - `FastLED`
 - `Servo`
 - `IRremote`
 - `MPU6050`
-- `Wire`，Arduino 内置库
+- `Wire`, included with Arduino
 
-项目已包含 `ArduinoJson-v6.11.1.h`，一般不需要额外安装 ArduinoJson。
+The project includes `ArduinoJson-v6.11.1.h`, so installing ArduinoJson separately is usually not required.
 
-## 编译与上传
+## Build and Upload
 
-### 使用 Arduino IDE
+### Arduino IDE
 
-1. 打开 `SmartRobotCarV4.0.ino`
-2. 选择 `工具 > 开发板 > Arduino AVR Boards > Arduino Uno`
-3. 通过 USB 连接小车主控板
-4. 选择正确的串口，例如 `COM3`
-5. 点击 `验证` 检查编译
-6. 点击 `上传` 烧录程序
+1. Open `SmartRobotCarV4.0.ino`.
+2. Select `Tools > Board > Arduino AVR Boards > Arduino Uno`.
+3. Connect the robot car controller board by USB.
+4. Select the correct serial port, such as `COM3`.
+5. Click `Verify` to compile.
+6. Click `Upload` to flash the firmware.
 
-上传成功后打开串口监视器，波特率设置为 `9600`。复位后应看到：
+After uploading, open Serial Monitor and set the baud rate to `9600`. After reset, the board should print:
 
 ```text
 Smart Robot Car V4.0 - System Ready
 ```
 
-### 使用 arduino-cli
+### arduino-cli
 
-如果已经安装 `arduino-cli`，可以使用类似命令编译：
+Compile:
 
 ```bash
 arduino-cli compile --fqbn arduino:avr:uno .
 ```
 
-上传时将 `COM3` 替换为实际端口：
+Upload, replacing `COM3` with the actual serial port:
 
 ```bash
 arduino-cli upload -p COM3 --fqbn arduino:avr:uno .
 ```
 
-## 串口 JSON 控制
+## Serial JSON Control
 
-程序通过串口接收 JSON 命令。消息必须以 `{` 开始、以 `}` 结束，最大长度为 `128` 字节。
+The firmware receives JSON commands over the serial port. Each message must start with `{` and end with `}`. The maximum message length is `128` bytes.
 
-常用字段：
+Common fields:
 
-| 字段 | 说明 |
+| Field | Description |
 | --- | --- |
-| `N` | 命令编号 |
-| `H` | 命令序号，用于响应跟踪 |
-| `D1`、`D2`、`D3`、`D4` | 命令参数 |
-| `T` | 定时时间，单位毫秒 |
+| `N` | Command number |
+| `H` | Command serial number for response tracking |
+| `D1`, `D2`, `D3`, `D4` | Command parameters |
+| `T` | Timer duration in milliseconds |
 
-示例：控制小车前进，速度 `120`。
+Example: move forward at speed `120`.
 
 ```json
 {"N":3,"H":"1","D1":3,"D2":120,"T":1000}
 ```
 
-示例：切换到循迹模式。
+Example: switch to line tracking mode.
 
 ```json
 {"N":101,"H":"2","D1":1}
 ```
 
-示例：设置 RGB 灯为红色。
+Example: set the RGB LED to red.
 
 ```json
 {"N":8,"H":"3","D1":1,"D2":255,"D3":0,"D4":0,"T":1000}
 ```
 
-## 主要命令
+## Main Commands
 
-| `N` | 功能 |
+| `N` | Function |
 | --- | --- |
-| `1` | 单个或全部电机控制 |
-| `2` / `3` | 小车方向与速度控制 |
-| `4` | 左右电机独立速度控制 |
-| `5` | 舵机角度控制 |
-| `7` / `8` | RGB 灯光控制 |
-| `21` | 获取超声波状态或距离 |
-| `22` | 获取循迹传感器状态 |
-| `23` | 获取离地/地面检测状态 |
-| `100` | 清除功能并进入待机 |
-| `101` | 模式切换：`1` 循迹，`2` 避障，`3` 跟随 |
-| `102` | 摇杆控制模式 |
-| `105` | LED 亮度调整 |
-| `106` | 舵机方向控制 |
-| `110` | 清除功能并进入空闲状态 |
+| `1` | Single or all-motor control |
+| `2` / `3` | Car direction and speed control |
+| `4` | Independent left/right motor speed control |
+| `5` | Servo angle control |
+| `7` / `8` | RGB lighting control |
+| `21` | Read ultrasonic status or distance |
+| `22` | Read line tracking sensor value |
+| `23` | Read ground detection status |
+| `100` | Clear functions and enter standby |
+| `101` | Mode switch: `1` tracking, `2` obstacle avoidance, `3` following |
+| `102` | Rocker control mode |
+| `105` | LED brightness adjustment |
+| `106` | Servo direction control |
+| `110` | Clear functions and enter idle state |
 
-## 运行模式
+## Operating Modes
 
-| 模式 | 说明 |
+| Mode | Description |
 | --- | --- |
-| `Standby` | 待机 |
-| `TraceBased` | 循迹 |
-| `ObstacleAvoidance` | 避障 |
-| `Follow` | 跟随 |
-| `Rocker` | 摇杆/遥控 |
-| `DoNothing` | 空闲 |
+| `Standby` | Standby mode |
+| `TraceBased` | Line tracking mode |
+| `ObstacleAvoidance` | Obstacle avoidance mode |
+| `Follow` | Object following mode |
+| `Rocker` | Rocker or remote control mode |
+| `DoNothing` | Idle state |
 
-## 常见问题
+## Troubleshooting
 
-### 编译提示找不到 `FastLED.h`
+### `FastLED.h` was not found
 
-在 Arduino IDE 中打开 `库管理器`，搜索并安装 `FastLED`。
+Open Library Manager in Arduino IDE, search for `FastLED`, and install it.
 
-### 编译提示找不到 `IRremote.hpp` 或 `MPU6050.h`
+### `IRremote.hpp` or `MPU6050.h` was not found
 
-安装对应库后重新编译。不同版本的库 API 可能有差异，建议优先使用 ELEGOO 官方资料包或本项目 `addLibrary` 中提供的库。
+Install the corresponding library and compile again. Library APIs may differ between versions, so prefer the ELEGOO official package or libraries provided in `addLibrary` when available.
 
-### 上传失败
+### Upload failed
 
-检查以下项目：
+Check the following:
 
-- 开发板是否选择 `Arduino Uno`
-- 串口是否选择正确
-- USB 数据线是否支持数据传输
-- 是否有串口监视器或其他软件占用了 COM 口
-- 主控板驱动是否安装正确
+- Board is set to `Arduino Uno`
+- Correct serial port is selected
+- USB cable supports data transfer
+- Serial Monitor or another program is not using the COM port
+- Board driver is installed correctly
 
-### 小车不运动
+### The car does not move
 
-检查电池电量、主板电源开关、电机接线和电机驱动 STBY 控制。程序中电池电压阈值为 `7.00V`，电量过低可能导致行为异常。
+Check the battery level, power switch, motor wiring, and motor driver STBY control. The firmware uses a battery voltage threshold of `7.00V`; low voltage may cause abnormal behavior.
 
-## 版本信息
+## Version
 
-- 当前版本：`2.1.2`
-- 主程序：`SmartRobotCarV4.0.ino`
-- 作者：ELEGOO
-
+- Firmware version: `2.1.2`
+- Main sketch: `SmartRobotCarV4.0.ino`
+- Author: ELEGOO
